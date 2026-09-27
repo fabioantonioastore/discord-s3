@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "discord-s3"
+dynamic = ["version"]
+description = "S3-style object storage backed by Discord"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Fabio Antonio Astore", email = "astore.a.fabio@gmail.com" }]
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "discord.py==2.7.1",
+    "aiofiles==25.1.0"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=6",
+    "ruff>=0.12",
+    "mypy>=1.17",
+]
+
+[tool.hatch.version]
+path = "src/discord_s3/__about__.py"
+
+[tool.hatch.build.targets.sdist]
+packages = ["src/discord_s3",]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/discord_s3"]
+
+[tool.hatch.envs.default]
+dependency-groups = ["dev"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--import-mode=importlib"]
+
+[tool.coverage.run]
+source = ["discord_s3"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.mypy]
+strict = true
+python_version = "3.12"
+mypy_path = "src"
